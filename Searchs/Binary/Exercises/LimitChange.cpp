@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-// The bool vector it isn't necessary, because if the vector have been used, the function can use iterators
+// The bool vector it isn't necessary, because if the vector was used, the function can use iterators
 
 class Solution
 {
