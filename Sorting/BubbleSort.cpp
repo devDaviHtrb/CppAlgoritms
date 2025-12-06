@@ -29,7 +29,20 @@ vector<int> recursiveBubbleSort(vector<int> &array, int end, int current_index)
     }
     return recursiveBubbleSort(array, end - 1, 0);
 }
-int main()
+
+void alternative_recursive_bbs(vector<int> &array, int end, int current_index)
 {
-    return 0;
+    if (end == 1)
+    {
+        return;
+    }
+    if (current_index < end - 1)
+    {
+        if (array[current_index] > array[current_index + 1])
+        {
+            swap(array[current_index], array[current_index + 1]);
+        }
+        return alternative_recursive_bbs(array, end, current_index + 1);
+    }
+    return alternative_recursive_bbs(array, end - 1, 0);
 }
