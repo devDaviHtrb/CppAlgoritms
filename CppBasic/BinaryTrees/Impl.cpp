@@ -1,4 +1,7 @@
 #include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
+#include <queue>
 using namespace std;
 
 struct Node
@@ -119,7 +122,7 @@ struct BinarySearchTree
         }
         return root;
     }
-
+    // dfs
     void printPO(Node *root)
     {
         if (root == nullptr)
@@ -149,5 +152,29 @@ struct BinarySearchTree
         cout << root->value << ", ";
         printPO(root->left)
             printPO(root->right);
+    }
+
+    void printLo(Node *root)
+    {
+        if (root == nullptr)
+            return;
+
+        queue<Node *> q;
+        q.push(root);
+        while (!q.empty())
+        {
+
+            Node *current = q.front();
+            q.pop();
+            cout << current->value << " ";
+            if (current->left != nullptr)
+            {
+                q.push(current->left);
+            }
+            if (current->right != nullptr)
+            {
+                q.push(current->right);
+            }
+        }
     }
 };
