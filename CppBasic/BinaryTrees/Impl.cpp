@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <queue>
+#include <unordered_map>
 using namespace std;
 
 struct Node
@@ -27,7 +28,7 @@ struct Node
             }
             else
             {
-                this->right = node
+                this->right = node;
             }
         }
         else
@@ -38,7 +39,7 @@ struct Node
             }
             else
             {
-                this->left = node
+                this->left = node;
             }
         }
     }
@@ -102,7 +103,7 @@ struct BinarySearchTree
             }
             // substitui o valor e apaga o nó do sucessor
             root->value = current->value;
-            this->deleteNode(root->value, root > right);
+            root->right = this->deleteNode(root->value, root->right);
         }
         // retorna a arvore
         return root;
@@ -122,40 +123,41 @@ struct BinarySearchTree
         }
         return root;
     }
+
     // dfs
     void printPO(Node *root)
     {
         if (root == nullptr)
-            return nullptr;
+            return;
 
-        printPO(root->left)
-            printPO(root->right);
+        printPO(root->left);
+        printPO(root->right);
         cout << root->value << ", ";
     }
 
     void printIO(Node *root)
     {
         if (root == nullptr)
-            return nullptr;
+            return;
 
-        printPO(root->left)
-                cout
-            << root->value << ", ";
-        printPO(root->right);
+        printIO(root->left);
+        cout << root->value << ", ";
+        printIO(root->right);
     }
 
     void printPrO(Node *root)
     {
         if (root == nullptr)
-            return nullptr;
+            return;
 
         cout << root->value << ", ";
-        printPO(root->left)
-            printPO(root->right);
+        printPrO(root->left);
+        printPrO(root->right);
     }
 
     void printLo(Node *root)
     {
+        int cont = 0;
         if (root == nullptr)
             return;
 
@@ -163,7 +165,7 @@ struct BinarySearchTree
         q.push(root);
         while (!q.empty())
         {
-
+            cont++;
             Node *current = q.front();
             q.pop();
             cout << current->value << " ";
@@ -177,4 +179,54 @@ struct BinarySearchTree
             }
         }
     }
+
+    void printLOGeneration(Node *root)
+    {
+        if (root == nullptr)
+            return;
+        queue<Node *> nodes;
+        nodes.push(root);
+
+        while (!nodes.empty())
+        {
+            int q_size = nodes.size();
+            vector<Node *> generation = {};
+            for (int n = 0; n < q_size; n++)
+            {
+                Node *curr = nodes.front();
+
+                generation.push_back(curr);
+                nodes.pop();
+
+                if (generation[n]->left != nullptr)
+                {
+                    nodes.push(generation[n]->left);
+                }
+                if (generation[n]->right != nullptr)
+                {
+                    nodes.push(generation[n]->right);
+                }
+
+                cout << curr->value << " ";
+            }
+            cout << endl;
+        }
+    }
 };
+
+int main()
+{
+    BinarySearchTree *tree = new BinarySearchTree();
+
+    vector<int> valores = {15, 8, 22, 4, 11, 18, 24, 2, 6, 9, 13, 16, 20, 23, 25};
+
+    for (int v : valores)
+    {
+        tree->insert(v);
+    }
+
+    cout << "Impressao por Geracoes (Linhas separadas):\n";
+    tree->printLOGeneration(tree->Root);
+
+    return 0;
+}
